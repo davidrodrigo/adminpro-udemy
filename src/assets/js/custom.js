@@ -4,6 +4,11 @@ Author: Wrappixel
 Email: niravjoshi87@gmail.com
 File: js
 */
+//FUNCIÓN PARA USAR SCRIPT EN ANGULAR
+//METEMOS TODO EL SCRIPT EN LA FUNCIÓN INIT_PLUGIN 
+function init_plugins(){  //<<<<<<<<<<<<<<<<<<<----///////////////////////////////////////////////////---->>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 $(function() {
     "use strict";
     $(function() {
@@ -155,3 +160,5 @@ $(function() {
     });
 
 });
+
+}
