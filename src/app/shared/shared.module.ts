@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { PipesModule } from '../pipes/pipes.module';
 
 import { BreadcrumbsComponent } from '../shared/breadcrumbs/breadcrumbs.component';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -10,7 +11,8 @@ import { NopagefoundComponent } from '../shared/nopagefound/nopagefound.componen
 @NgModule ({
 	imports: [
 		RouterModule,
-		CommonModule
+		CommonModule,
+		PipesModule
 	],
 	declarations: [
 		BreadcrumbsComponent,

@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   auth2: any;
 
   constructor(
-    public router:Router,
+    public router: Router,
     public _usuarioService: UsuarioService
   ) { }
 
@@ -64,8 +64,6 @@ export class LoginComponent implements OnInit {
       this._usuarioService.loginGoogle(token)
                           .subscribe( () => window.location.href = '#/dashboard');
 
-      console.log(token);
-
     });
 
   }
@@ -82,9 +80,6 @@ export class LoginComponent implements OnInit {
 
     this._usuarioService.login(usuario, forma.value.recuerdame)
                         .subscribe(correcto => this.router.navigate(['/dashboard']));
-
-    console.log('El formulario es válido: ', forma.valid);
-    console.log(forma.value);
     
   }
 
