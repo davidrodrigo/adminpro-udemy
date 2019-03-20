@@ -41,7 +41,7 @@ export class MedicoComponent implements OnInit {
   ngOnInit() {
 
     this._hospitalService.cargarHospitales()
-          .subscribe( hospitales => this.hospitales );
+          .subscribe( (hospitales) => {this.hospitales = hospitales  } );
 
     this._modalUploadService.notificacion
           .subscribe( resp => {
@@ -54,19 +54,18 @@ export class MedicoComponent implements OnInit {
     this._medicoService.cargarMedico( id )
           .subscribe( medico => {
 
-            console.log( medico );
+            //console.log( medico );
             this.medico = medico;
             this.medico.hospital = medico.hospital._id;
-            this.cambioHospital( this.medico.hospital ); 
+            this.cambioHospital( this.medico.hospital );
           });
   }
 
   guardarMedico( f: NgForm ) {
 
-    console.log( f.valid );
-    console.log( f.value );
+    // console.log( f.valid );
 
-    if ( f.invalid ) {
+    if ( f.invalid ) { 
       return;
     }
 

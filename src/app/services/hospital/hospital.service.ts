@@ -7,21 +7,21 @@ import { Hospital } from '../../models/hospital.model';
 @Injectable()
 export class HospitalService {
 
-  // totalHospitales: number = 0;
+   totalHospitales: number = 0;
 
   constructor(
     public http: HttpClient,
     public _usuarioService: UsuarioService
   ) { }
 
-  cargarHospitales(desde: number = 0) {
+  cargarHospitales() {
 
-    let url = URL_SERVICIOS + '/hospital?desde=' + desde;
-    return this.http.get( url );
-              // .map( (resp: any) => {
-              //   this.totalHospitales = resp.total;
-              //   return resp.hospitales;
-              // });
+    let url = URL_SERVICIOS + '/hospital';
+    return this.http.get( url )
+              .map( (resp: any) => {
+                this.totalHospitales = resp.total;
+                return resp.hospitales;
+              });
 
   }
 

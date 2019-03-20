@@ -14,8 +14,8 @@ declare var swal: any;
 export class HospitalesComponent implements OnInit {
 
   hospitales: Hospital[] = [];
-  desde: number = 0;
-  totalRegistros: number = 0;
+  // desde: number = 0;
+  // totalRegistros: number = 0;
 
   constructor(
     public _hospitalService: HospitalService,
@@ -42,11 +42,8 @@ export class HospitalesComponent implements OnInit {
   }
 
   cargarHospitales() {
-    this._hospitalService.cargarHospitales(this.desde)
-            .subscribe( (resp:any) => {
-              this.totalRegistros = resp.total;
-              this.hospitales = resp.hospitales;
-            });
+    this._hospitalService.cargarHospitales()
+            .subscribe( hospitales => this.hospitales = hospitales);
   }
 
 
@@ -92,23 +89,23 @@ export class HospitalesComponent implements OnInit {
 
   }
 
-  cambiarDesde(valor: number){
+  // cambiarDesde(valor: number){
 
-    let desde = this.desde + valor;
+  //   let desde = this.desde + valor;
 
-    // console.log(desde);
+  //   // console.log(desde);
 
-    if(desde >= this.totalRegistros){
-      return;
-    }
+  //   if(desde >= this.totalRegistros){
+  //     return;
+  //   }
 
-    if(desde < 0){
-      return;
-    }
+  //   if(desde < 0){
+  //     return;
+  //   }
 
-    this.desde += valor;
-    this.cargarHospitales();
+  //   this.desde += valor;
+  //   this.cargarHospitales();
 
-  }
+  // }
 
 }
