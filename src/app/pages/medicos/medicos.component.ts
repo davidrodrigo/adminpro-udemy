@@ -62,7 +62,7 @@ export class MedicosComponent implements OnInit {
     }
 
     this.desde += valor;
-    this.cargarMedicos();
+    this.cargarMedicos(); 
   }
 
 }
