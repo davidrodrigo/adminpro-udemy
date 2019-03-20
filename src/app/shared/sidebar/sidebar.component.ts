@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { SidebarService, UsuarioService } from '../../services/service.index';
 import { Usuario } from '../../models/usuario.model';
 
@@ -9,17 +10,15 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class SidebarComponent implements OnInit {
 
-	usuario: Usuario;
+  usuario: Usuario;
 
-	constructor( 
-		public _sidebar: SidebarService,
-		public _usuarioService: UsuarioService
-	) { }
+  constructor( 
+    public _sidebar: SidebarService,
+    public _usuarioService: UsuarioService
+  ) { }
 
-	ngOnInit() {
-
-		this.usuario = this._usuarioService.usuario;
-
-	}
+  ngOnInit() {
+    this.usuario = this._usuarioService.usuario;
+  }
 
 }

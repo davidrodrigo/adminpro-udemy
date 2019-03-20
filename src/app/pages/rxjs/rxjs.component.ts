@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscriber, Subscription } from 'rxjs/Rx';
-import { retry, map, filter } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+// tslint:disable-next-line:import-blacklist
+import { Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-rxjs',
@@ -9,74 +10,76 @@ import { retry, map, filter } from 'rxjs/operators';
 })
 export class RxjsComponent implements OnInit, OnDestroy {
 
-subscription: Subscription;
+  subscription: Subscription;
 
-	constructor() { 		
+  constructor() {
 
-		this.subscription = this.regresaObservable()
-								.subscribe(
-									numero => console.log('Subs', numero),
-									error => console.error('Error en el obs', error),
-									() => console.log('El observador terminó')
-								);
-
-	}
-
-	ngOnInit() {
-	}
-
-	ngOnDestroy(){
-		console.log('La Página se va a cerrar');
-		this.subscription.unsubscribe();
-	}
-
-	regresaObservable(): Observable<any>{
-
-		return new Observable( (observer: Subscriber<any>) => {
-
-			let contador = 0;
-
-			let intervalo =  setInterval(() =>{
-
-				contador ++;
-
-				const salida = {
-					valor: contador
-				};
-				
-				observer.next(salida);
-
-				// if(contador === 3){
-				// 	clearInterval(intervalo);
-				// 	observer.complete();
-				// }
-
-				// if(contador === 2){
-				// 	//clearInterval(intervalo);
-				// 	observer.error('SOS!!!');
-				// }
-				 
-				
-			
-			}, 1000);
+    this.subscription = this.regresaObservable()
+      .subscribe(
+          numero => console.log( 'Subs', numero ),
+          error => console.error('Error en el obs (dos veces)', error ),
+          () => console.log( 'El observador termino!' )
+        );
 
 
-		}).pipe(
-			map(resp => resp.valor),
-			filter((valor, index) => {
-				//console.log('Filter', valor, index);
-				if ((valor % 2) === 1) {
-					// impar
-					return true;
-				}else{
-					//par
-					return false;
-				};
-				
-				
-			})
-		);
-		
-	}
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  regresaObservable(): Observable<any> {
+
+    return new Observable( observer => {
+
+    let contador = 0;
+
+    let intervalo = setInterval( () => {
+
+      contador += 1;
+
+      let salida = {
+        valor: contador
+      };
+
+      observer.next( salida );
+
+      // if ( contador === 3 ) {
+      //   clearInterval( intervalo );
+      //   observer.complete();
+      // }
+
+      // if ( contador === 2 ) {
+      //   observer.error('Auxilio!');
+      // }
+
+    }, 500 );
+
+  })
+  .retry(2)
+  .map( (resp: any) => {
+
+    return resp.valor;
+  })
+  .filter( (valor, index) => {
+
+    if ( (valor % 2) === 1 ) {
+      // impar
+      return true;
+    }else {
+      // par
+      return false;
+    }
+
+  });
+
+
+  }
 
 }
+
+
+

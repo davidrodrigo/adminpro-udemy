@@ -12,125 +12,113 @@ declare var swal: any;
 })
 export class UsuariosComponent implements OnInit {
 
-	usuarios: Usuario[] = [];
-	desde: number = 0;
-	totalRegistros: number = 0;
-	cargando: boolean = true;
+  usuarios: Usuario[] = [];
+  desde: number = 0;
 
-	constructor(
-		public _usuarioService: UsuarioService,
-		public _modalUploadService: ModalUploadService
-	) { }
+  totalRegistros: number = 0;
+  cargando: boolean = true;
 
-	ngOnInit() {
-		this.cargarUsuarios();
-		this._modalUploadService.notificacion.subscribe(resp => this.cargarUsuarios());
-	}
+  constructor(
+    public _usuarioService: UsuarioService,
+    public _modalUploadService: ModalUploadService
+  ) { }
 
-	mostrarModal(id: string){
+  ngOnInit() {
+    this.cargarUsuarios();
 
-		this._modalUploadService.mostrarModal('usuarios', id);
-		
-	}
+    this._modalUploadService.notificacion
+          .subscribe( resp => this.cargarUsuarios() );
+  }
 
-	cargarUsuarios(){
+  mostrarModal( id: string ) {
 
-		this.cargando = true;
+    this._modalUploadService.mostrarModal( 'usuarios', id );
+  }
 
-		this._usuarioService.cargarUsuarios(this.desde)
-							.subscribe( (resp: any)=>{
-								// console.log(resp);
-								this.totalRegistros = resp.total;
-								this.usuarios = resp.usuarios;
-								this.cargando = false;
-							} );
+  cargarUsuarios() {
 
-	}
+    this.cargando = true;
 
-	cambiarDesde(valor:number){
+    this._usuarioService.cargarUsuarios( this.desde )
+              .subscribe( (resp: any) => {
 
-		let desde = this.desde + valor;
-		console.log(desde);
+                this.totalRegistros = resp.total;
+                this.usuarios = resp.usuarios;
+                this.cargando = false;
 
-		if(desde >= this.totalRegistros){
-			return;
-		}
+              });
 
-		if(desde < 0){
-			return;
-		}
+  }
 
-		this.desde += valor;
-		this.cargarUsuarios();
+  cambiarDesde( valor: number ) {
 
-	}
+    let desde = this.desde + valor;
 
-	buscarUsuario( termino: string ){
+    if ( desde >= this.totalRegistros ) {
+      return;
+    }
 
-		// console.log(termino);
+    if ( desde < 0 ) {
+      return;
+    }
 
-		if(termino.length <= 0){
-			this.cargarUsuarios();
-			return;
-		}
+    this.desde += valor;
+    this.cargarUsuarios();
 
-		this.cargando = true;
+  }
 
-		this._usuarioService.buscarUsuarios(termino)
-							.subscribe((usuarios: Usuario[])=>{
+  buscarUsuario( termino: string ) {
 
-								// console.log(usuarios);
-								this.usuarios = usuarios;
-								this.cargando = false;
+    if ( termino.length <= 0 ) {
+      this.cargarUsuarios();
+      return;
+    }
 
-							});
+    this.cargando = true;
 
-	}
+    this._usuarioService.buscarUsuarios( termino )
+            .subscribe( (usuarios: Usuario[]) => {
 
-	borrarUsuario(usuario: Usuario){
+              this.usuarios = usuarios;
+              this.cargando = false;
+            });
 
-		// console.log(usuario);
-		if (usuario._id === this._usuarioService.usuario._id){
-			swal('No se pueed borrar usuario', 'No se puede borrar a si mismo', 'error');
-			return;
-		}
+  }
 
-		swal({
+  borrarUsuario( usuario: Usuario ) {
 
-			tittle: '¿Está seguro?',
-			text: 'Está a punto de borrar a ' + usuario.nombre,
-			icon: 'warning',
-			buttons: true,
-			dangerMode: true
+    if ( usuario._id === this._usuarioService.usuario._id ) {
+      swal('No puede borrar usuario', 'No se puede borrar a si mismo', 'error');
+      return;
+    }
 
-		})
+    swal({
+      title: '¿Esta seguro?',
+      text: 'Esta a punto de borrar a ' + usuario.nombre,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    })
+    .then( borrar => {
 
-			.then( borrar=>{
+      if (borrar) {
 
-				// console.log(borrar);
-				if(borrar){
+        this._usuarioService.borrarUsuario( usuario._id )
+                  .subscribe( borrado => {
+                      this.cargarUsuarios();
+                  });
 
-					this._usuarioService.borarrUsuarios(usuario._id)
-										.subscribe(borrado=>{
-											console.log(borrado);
-											this._usuarioService.cargarUsuarios(this.desde = 0)
-												.subscribe( (resp: any)=>{
-													// console.log(resp);
-													this.totalRegistros = resp.total;
-													this.usuarios = resp.usuarios;
-													this.cargando = false;
-												} );
+      }
 
-										});
+    });
 
-				}
+  }
 
-			} );
-			
-	}
+  guardarUsuario( usuario: Usuario ) {
 
-	guardarUsuario( usuario: Usuario){
-		this._usuarioService.actualizarUsuario(usuario).subscribe();
-	}
+    this._usuarioService.actualizarUsuario( usuario )
+            .subscribe();
+
+  }
 
 }

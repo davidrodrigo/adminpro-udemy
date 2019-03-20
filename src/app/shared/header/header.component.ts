@@ -3,18 +3,18 @@ import { UsuarioService } from '../../services/service.index';
 import { Usuario } from '../../models/usuario.model';
 
 @Component({
-	selector: 'app-header',
-	templateUrl: './header.component.html',
-	styles: []
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styles: []
 })
 export class HeaderComponent implements OnInit {
 
-	usuario: Usuario;
+  usuario: Usuario;
 
-	constructor(public _usuarioService: UsuarioService) { }
+  constructor( public _usuarioService: UsuarioService ) { }
 
-	ngOnInit() {
-		this.usuario = this._usuarioService.usuario;
-	}
+  ngOnInit() {
+    this.usuario = this._usuarioService.usuario;
+  }
 
 }
